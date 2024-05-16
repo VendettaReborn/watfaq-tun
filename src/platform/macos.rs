@@ -24,14 +24,14 @@ pub fn build_routes(opt: &Opt) -> Vec<Route> {
     let routes_ipv6 = if let Some(gateway_ipv6) = opt.gateway_ipv6 {
         let gateway = IpAddr::V6(gateway_ipv6);
         [
-            Route::new("1::".parse().unwrap(), 8).with_gateway(gateway),
-            Route::new("2::".parse().unwrap(), 7).with_gateway(gateway),
-            Route::new("2::".parse().unwrap(), 6).with_gateway(gateway),
-            Route::new("8::".parse().unwrap(), 5).with_gateway(gateway),
-            Route::new("16::".parse().unwrap(), 4).with_gateway(gateway),
-            Route::new("32::".parse().unwrap(), 3).with_gateway(gateway),
-            Route::new("64::".parse().unwrap(), 2).with_gateway(gateway),
-            Route::new("128::".parse().unwrap(), 1).with_gateway(gateway),
+            Route::new("100::".parse().unwrap(), 8).with_gateway(gateway),
+            Route::new("200::".parse().unwrap(), 7).with_gateway(gateway),
+            Route::new("400::".parse().unwrap(), 6).with_gateway(gateway),
+            Route::new("800::".parse().unwrap(), 5).with_gateway(gateway),
+            Route::new("1000::".parse().unwrap(), 4).with_gateway(gateway),
+            Route::new("2000::".parse().unwrap(), 3).with_gateway(gateway),
+            Route::new("4000::".parse().unwrap(), 2).with_gateway(gateway),
+            Route::new("8000::".parse().unwrap(), 1).with_gateway(gateway),
         ]
         .into()
     } else {
