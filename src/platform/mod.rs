@@ -1,11 +1,12 @@
-
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 use net_route::Handle;
+use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 
 #[cfg(target_os = "linux")]
 pub mod linux;
 #[cfg(target_os = "linux")]
-pub use linux::{build_routes, add_rules};
+pub use linux::add_rules;
+#[cfg(target_os = "linux")]
+use linux::build_routes;
 
 #[cfg(target_os = "macos")]
 pub mod macos;
@@ -20,7 +21,7 @@ pub use windows::build_routes;
 /// Options for adding routes and rules(linux only)
 #[derive(Clone, Debug)]
 pub struct Opt {
-    /// if specified, will only add routes
+    /// if specified, will only add routes in the preset
     pub preset: Vec<(IpAddr, u8)>,
     /// table id that the rule will by added
     #[cfg(target_os = "linux")]
@@ -34,10 +35,10 @@ pub struct Opt {
     pub gateway_ipv6: Option<Ipv6Addr>,
 }
 
-pub async fn add_route(gateway: IpAddr, opt: &Opt) -> std::io::Result<()> {
+pub async fn add_route(opt: &Opt) -> std::io::Result<()> {
     let handle = Handle::new()?;
     let routes = if opt.preset.is_empty() {
-        build_routes(gateway, opt)
+        build_routes(opt)
     } else {
         opt.preset
             .iter()
@@ -66,11 +67,10 @@ pub async fn add_route(gateway: IpAddr, opt: &Opt) -> std::io::Result<()> {
     Ok(())
 }
 
-
 #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
 #[cfg(test)]
 #[allow(unused)]
-mod tests{
+mod tests {
 
     use super::build_routes;
 }

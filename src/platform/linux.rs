@@ -1,4 +1,4 @@
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+use std::net::{Ipv4Addr, Ipv6Addr};
 
 use net_route::{Handle, Route};
 
@@ -7,7 +7,7 @@ use super::Opt;
 fn build_rules(table: u32, ipv4: bool, ipv6: bool) -> Vec<net_route::Rule> {
     let ipv4_rules = if ipv4 {
         vec![
-            // will lookup the table main fristly, 
+            // will lookup the table main fristly,
             // and ignore the default route(with prefix of 0) in it
             net_route::Rule {
                 table_id: Some(254),
@@ -18,7 +18,7 @@ fn build_rules(table: u32, ipv4: bool, ipv6: bool) -> Vec<net_route::Rule> {
             // will lookup the table, in which the default gateway shall be set
             net_route::Rule {
                 table_id: Some(table),
-                priority: Some(7000),
+                priority: Some(7001),
                 ..Default::default()
             },
         ]
@@ -37,7 +37,7 @@ fn build_rules(table: u32, ipv4: bool, ipv6: bool) -> Vec<net_route::Rule> {
             },
             net_route::Rule {
                 table_id: Some(table),
-                priority: Some(7000),
+                priority: Some(7001),
                 v6: true,
                 ..Default::default()
             },
@@ -58,12 +58,12 @@ pub async fn add_rules(
     let rules = build_rules(table, ipv4, ipv6);
     let handle = Handle::new().unwrap();
     if clear_before_add {
-        handle.delete_rules(rules.clone()).await?;
+        let _ = handle.delete_rules(rules.clone()).await;
     }
     handle.add_rules(rules).await
 }
 
-pub fn build_routes(_gateway: IpAddr, opt: &Opt) -> Vec<Route> {
+pub(crate) fn build_routes(opt: &Opt) -> Vec<Route> {
     let mut routes = Vec::with_capacity(2);
 
     if opt.gateway_ipv4.is_some() {

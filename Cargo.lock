@@ -364,7 +364,7 @@ dependencies = [
 [[package]]
 name = "net-route"
 version = "0.4.2"
-source = "git+https://github.com/VendettaReborn/net-route.git?rev=48496209548dcd53bb9e6f312c56a57c01de71c2#48496209548dcd53bb9e6f312c56a57c01de71c2"
+source = "git+https://github.com/VendettaReborn/net-route.git?rev=cead9c20b68c2a13410daab6a0a1f64cf5e8779e#cead9c20b68c2a13410daab6a0a1f64cf5e8779e"
 dependencies = [
  "async-stream",
  "bindgen",

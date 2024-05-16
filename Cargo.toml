@@ -12,7 +12,7 @@ socket2 = "0.5.6"
 bytes = "1.6.0"
 
 # net route, core logics
-net-route = { git = "https://github.com/VendettaReborn/net-route.git", rev = "48496209548dcd53bb9e6f312c56a57c01de71c2"}
+net-route = { git = "https://github.com/VendettaReborn/net-route.git", rev = "cead9c20b68c2a13410daab6a0a1f64cf5e8779e"}
 
 [target.'cfg(target_os = "linux")'.dependencies]
 netlink-packet-sock-diag = "0.4.2"
