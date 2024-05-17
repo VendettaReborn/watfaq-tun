@@ -23,17 +23,18 @@ pub fn build_routes(opt: &Opt) -> Vec<Route> {
 
     let routes_ipv6 = if let Some(gateway_ipv6) = opt.gateway_ipv6 {
         let gateway = IpAddr::V6(gateway_ipv6);
-        [
-            Route::new("100::".parse().unwrap(), 8).with_gateway(gateway),
-            Route::new("200::".parse().unwrap(), 7).with_gateway(gateway),
-            Route::new("400::".parse().unwrap(), 6).with_gateway(gateway),
-            Route::new("800::".parse().unwrap(), 5).with_gateway(gateway),
-            Route::new("1000::".parse().unwrap(), 4).with_gateway(gateway),
-            Route::new("2000::".parse().unwrap(), 3).with_gateway(gateway),
-            Route::new("4000::".parse().unwrap(), 2).with_gateway(gateway),
-            Route::new("8000::".parse().unwrap(), 1).with_gateway(gateway),
-        ]
-        .into()
+
+        (0..8)
+            .into_iter()
+            .map(|i| {
+                let mut raw = [0u8; 16];
+                raw[0] = 1 << i;
+                let dst = std::net::Ipv6Addr::from(raw);
+                let prefix = 8 - i;
+                Route::new(IpAddr::V6(dst), prefix).with_gateway(gateway)
+            })
+            .collect::<Vec<_>>()
+            .into()
     } else {
         vec![]
     };
@@ -43,8 +44,10 @@ pub fn build_routes(opt: &Opt) -> Vec<Route> {
 
 #[test]
 fn test_parse() {
-    let addr = "1::".parse::<std::net::Ipv6Addr>();
-    assert!(addr.is_ok());
+    let mut raw = [0u8; 16];
+    raw[0] = 1;
+    let dst = std::net::Ipv6Addr::from(raw);
+    assert_eq!(dst.to_string(), "100::");
 }
 
 #[test]
@@ -52,8 +55,8 @@ fn test_build_routes() {
     let opt = Opt {
         preset: vec![],
         if_index: 1,
-        gateway_ipv4: Some("192.17.0.1".parse().unwrap()),
-        gateway_ipv6: Some("2001:db8::1".parse().unwrap()),
+        gateway_ipv4: Some("10.10.2.1".parse().unwrap()),
+        gateway_ipv6: Some("2:2:1:1443::400".parse().unwrap()),
     };
     let routes = build_routes(&opt);
     assert_eq!(routes.len(), 16);
