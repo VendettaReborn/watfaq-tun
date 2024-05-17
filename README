@@ -1,0 +1,10 @@
+## watfaq-tun
+
+offers a out-of-the-box toolkit to configure global proxy on top of rust-tun, such as:
+
+1. configure routes and rules(linux only) cross platforms, including ipv4 & ipv6
+
+## Inspired by 
+
+- [sing-tun](https://github.com/SagerNet/sing-tun)
+- [rust-tun](https://github.com/meh/rust-tun)
