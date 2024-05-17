@@ -63,7 +63,7 @@ pub async fn add_rules(
     handle.add_rules(rules).await
 }
 
-pub(crate) fn build_routes(opt: &Opt) -> Vec<Route> {
+pub fn build_routes(opt: &Opt) -> Vec<Route> {
     let mut routes = Vec::with_capacity(2);
 
     if opt.gateway_ipv4.is_some() {

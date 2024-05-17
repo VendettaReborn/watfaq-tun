@@ -4,9 +4,7 @@ use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 #[cfg(target_os = "linux")]
 mod linux;
 #[cfg(target_os = "linux")]
-pub use linux::add_rules;
-#[cfg(target_os = "linux")]
-use linux::build_routes;
+pub use linux::{add_rules, build_routes};
 
 #[cfg(target_os = "macos")]
 mod macos;
