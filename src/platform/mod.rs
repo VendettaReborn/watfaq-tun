@@ -2,19 +2,19 @@ use net_route::Handle;
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 
 #[cfg(target_os = "linux")]
-pub mod linux;
+mod linux;
 #[cfg(target_os = "linux")]
 pub use linux::add_rules;
 #[cfg(target_os = "linux")]
 use linux::build_routes;
 
 #[cfg(target_os = "macos")]
-pub mod macos;
+mod macos;
 #[cfg(target_os = "macos")]
 pub use macos::build_routes;
 
 #[cfg(target_os = "windows")]
-pub mod windows;
+mod windows;
 #[cfg(target_os = "windows")]
 pub use windows::build_routes;
 
